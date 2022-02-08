@@ -1,1 +1,1 @@
-rootProject.name = "tempo-showcase"
+rootProject.name = "grafana-showcase"
