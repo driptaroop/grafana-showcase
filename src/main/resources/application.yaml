@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: api-service
+management:
+  endpoint:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: debug
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %highlight(%-5level) %clr(%-40.40logger{39}){cyan} traceID=%X{trace_id} %clr(:){faint} %m%n%wEx"

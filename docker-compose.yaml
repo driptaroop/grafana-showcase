@@ -41,7 +41,7 @@ services:
       - "9411"   # zipkin
     volumes:
       - ./config/tempo/tempo.yaml:/etc/tempo.yaml
-      - ./tempo-data:/tmp/tempo
+      #- ./tempo-data:/tmp/tempo
     networks:
       - observability
     command:
@@ -63,6 +63,11 @@ services:
     logging: *loki-driver
 
   api-service:
+    depends_on:
+      - tempo
+      - loki
+      - prometheus
+      - grafana
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -71,8 +76,11 @@ services:
     networks:
       - observability
     environment:
-      JAEGER_ENDPOINT: 'http://tempo:14268/api/traces'
-      JAEGER_TAGS: job=tns/app
-      JAEGER_SAMPLER_TYPE: const
-      JAEGER_SAMPLER_PARAM: 1
+      - OTEL_SERVICE_NAME=api-service
+      - OTEL_TRACES_EXPORTER=jaeger
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://tempo:14250
+#      - JAEGER_AGENT_HOST=tempo
+#      - JAEGER_ENDPOINT=http://tempo:14268/api/traces # send traces to Tempo
+#      - JAEGER_SAMPLER_TYPE=const
+#      - JAEGER_SAMPLER_PARAM=1
     logging: *loki-driver
