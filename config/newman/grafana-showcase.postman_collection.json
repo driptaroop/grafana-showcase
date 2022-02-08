@@ -1,0 +1,28 @@
+{
+	"info": {
+		"_postman_id": "8342a2cc-2f35-4a83-95cf-d238e4d83f0d",
+		"name": "grafana-showcase",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/customers/{{customerId}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"customers",
+						"{{customerId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

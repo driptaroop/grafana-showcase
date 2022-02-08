@@ -84,3 +84,17 @@ services:
 #      - JAEGER_SAMPLER_TYPE=const
 #      - JAEGER_SAMPLER_PARAM=1
     logging: *loki-driver
+
+  data-load:
+    depends_on:
+      - api-service
+    networks:
+      - observability
+    image: postman/newman
+    volumes:
+      - ./config/newman:/etc/postman
+    command: >
+      run grafana-showcase.postman_collection.json 
+      -e grafana-showcase-docker-compose.postman_environment.json 
+      -d data.json
+      --verbose

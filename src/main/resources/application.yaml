@@ -2,13 +2,13 @@ spring:
   application:
     name: api-service
 management:
-  endpoint:
-    web:
-      exposure:
-        include: health,metrics,prometheus
   metrics:
     tags:
       application: ${spring.application.name}
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: debug
