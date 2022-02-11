@@ -1,6 +1,6 @@
 spring:
   application:
-    name: api-service
+    name: ${OTEL_SERVICE_NAME}
 management:
   metrics:
     tags:

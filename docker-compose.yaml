@@ -79,22 +79,42 @@ services:
       - OTEL_SERVICE_NAME=api-service
       - OTEL_TRACES_EXPORTER=jaeger
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://tempo:14250
-#      - JAEGER_AGENT_HOST=tempo
-#      - JAEGER_ENDPOINT=http://tempo:14268/api/traces # send traces to Tempo
-#      - JAEGER_SAMPLER_TYPE=const
-#      - JAEGER_SAMPLER_PARAM=1
     logging: *loki-driver
 
-  data-load:
+  customer-details-service:
     depends_on:
-      - api-service
+      - tempo
+      - loki
+      - prometheus
+      - grafana
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+#    ports:
+#      - "8080:8080"
     networks:
       - observability
-    image: postman/newman
-    volumes:
-      - ./config/newman:/etc/postman
-    command: >
-      run grafana-showcase.postman_collection.json 
-      -e grafana-showcase-docker-compose.postman_environment.json 
-      -d data.json
-      --verbose
+    environment:
+      - OTEL_SERVICE_NAME=customer-details-service
+      - OTEL_TRACES_EXPORTER=jaeger
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://tempo:14250
+    logging: *loki-driver
+
+  address-service:
+    depends_on:
+      - tempo
+      - loki
+      - prometheus
+      - grafana
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+#    ports:
+#      - "8080:8080"
+    networks:
+      - observability
+    environment:
+      - OTEL_SERVICE_NAME=address-service
+      - OTEL_TRACES_EXPORTER=jaeger
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://tempo:14250
+    logging: *loki-driver

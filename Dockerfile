@@ -14,8 +14,5 @@ EXPOSE 8080
 WORKDIR /app/workspace
 COPY --from=build /workspace/app/build/libs/grafana-showcase-0.1.jar app.jar
 COPY opentelemetry-javaagent.jar otel-agent.jar
-ENTRYPOINT ["java","-javaagent:otel-agent.jar",\
-        #"-Dotel.service.name=api-service","-Dotel.traces.exporter=jaeger",\
-        #"-Dotel.exporter.jaeger.endpoint=http://tempo:14250",\
-        "-jar","app.jar"]
+ENTRYPOINT ["java","-javaagent:otel-agent.jar", "-jar","app.jar"]
 
