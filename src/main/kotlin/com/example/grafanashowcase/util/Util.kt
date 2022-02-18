@@ -1,4 +1,4 @@
-package com.example.grafanashowcase
+package com.example.grafanashowcase.util
 
 import com.github.javafaker.Faker
 
